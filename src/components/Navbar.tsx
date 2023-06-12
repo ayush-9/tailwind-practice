@@ -4,7 +4,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../../public/next.svg';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
-const Navbar = () => {
+
+export type NavItem = { link: string; name: string };
+
+type NavbarProps = {
+  navItems: Array<NavItem>;
+};
+const Navbar = ({ navItems }: NavbarProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const handleMenu = () => setMenuOpen(!menuOpen);
   return (
@@ -26,12 +32,19 @@ const Navbar = () => {
             : 'hidden'
         }
       >
-        <div className='absolute right-6 top-6 flex'>
+        <div className='absolute right-6 top-4 flex'>
           <AiOutlineClose
             onClick={handleMenu}
             className='cursor-pointer text-2xl text-black'
           />
         </div>
+        <ul className='mt-20 flex flex-col items-center justify-center'>
+          {navItems.map((obj) => (
+            <li key={obj.name} className='mb-4 text-2xl text-black'>
+              <Link href={obj.link}>{obj.name}</Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </nav>
   );
